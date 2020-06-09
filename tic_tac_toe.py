@@ -17,7 +17,6 @@ def display_board(board):
     '''This function takes a list of list representing the values of the board 
     and displays them as a tic tac toe human friendly board by printing it'''
     line_counter = 0
-    print('\n')
     for i, line in enumerate(board):
         print(' '+' | '.join(line))
         if i < 2:

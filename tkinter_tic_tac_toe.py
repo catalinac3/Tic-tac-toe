@@ -19,6 +19,9 @@ def play():
     global players
     global disable_numbers_x
     global disable_numbers_o
+    global count_turns
+
+    count_turns = 0
 
     # here the sets that collect the moves of each players are reseted
     disable_numbers_x = set()
@@ -37,7 +40,7 @@ def play():
             players[i] = entries_name[i].get()
 
     message.set(
-        f"Welcome players: {players[0]} & {players[1]}, it's your turn {players[0]}")
+        f"Welcome players: {players[0]} & {players[1]},\n it's your turn {players[0]}")
 
 
 def click_number(i):
@@ -96,7 +99,7 @@ def player_won(check_disable):
 win = tk.Tk()
 
 # It determines how big the screen is
-win.geometry("400x500")
+win.geometry("350x350")
 
 win.title('Tic-tac-toe game')
 
@@ -122,7 +125,7 @@ for i in range(2):
 message = tk.StringVar()
 label_2 = tk.Label(
     win, textvariable=message)
-label_2.grid(row=4, column=0, columnspan=3)
+label_2.grid(row=4, column=0, columnspan=4, rowspan=2)
 
 # These buttons here are the board of the the game
 # They are located in a different frame call Game_frame
