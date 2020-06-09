@@ -137,11 +137,8 @@ print('\n'+'Make your move by chossing a number on this board')
 position_map = position_indicator_initial()
 display_board(position_map)
 
+players = ['player X', 'player O']
 
-name_player_1 = input('\nplayer 1, please write your name: ')
-name_player_2 = input('\nplayer 2, please write your name: ')
-
-players = [name_player_1, name_player_2]
 player_won = False
 
 turns = 0
