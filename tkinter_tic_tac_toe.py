@@ -9,31 +9,37 @@ from functools import partial
 # Game state (global variables)
 count_turns = 0
 players = ["player X", "player O"]
+# The sets collect the moves of each player
 disable_numbers_x = set()
 disable_numbers_o = set()
 
 
-# TODO
-def play():
-    '''This functions gets activated when the button click to start is clicked '''
+def start():
+    ''' Gets the game started. It resets all values stored during the last game
+    and deals with the name input of the players. This function is called by 
+    the start_button
+    '''
     global players
     global disable_numbers_x
     global disable_numbers_o
     global count_turns
 
+    # turn counter is reset to cero
     count_turns = 0
 
-    # here the sets that collect the moves of each players are reseted
+    # sets are reset to empty
     disable_numbers_x = set()
     disable_numbers_o = set()
 
-    # This code reset the buttons of the board, the availability, text, and color
+    # buttons of the board games are reset, so that they are available to the
+    # players, with no text and in their original color
     for i in range(9):
         if buttons[i]['state'] == 'disabled':
             buttons[i].config(state="normal", text=" ", bg=orig_color)
 
-    # This loop checks for players input of their name in case of no inputs,
-    # it uses the default values names: player X and player O.
+    # checks for players input of their name on the interface entry spaces,
+    # in the case of no inputs, default names: player X and player O, will
+    # be used during the game
     for i in range(2):
         # .get() takes the value on the entry (inserted by the user)
         if len(entries_name[i].get()) != 0:
@@ -44,10 +50,15 @@ def play():
 
 
 def click_number(i):
-    '''This function place an X or an O over the pressed button and disable
-    this button in the game board. It changes the label to display who's next,
-    checks if there is a winner or if there is no more moves.
-    All once a button in the board game is clicked '''
+    '''Places an X or an O over the pressed button of the game and disable this 
+    button. It changes the label to display who's next,checks if there is a 
+    winner using the function player_won() or if there is no more possible moves. 
+    Once a player has won, it dissables all the buttons on the board game.
+    This functions is called by pressing any button on the board game
+
+    Parameter:
+    i(int): is the number referening the position of the button in the game board
+    '''
     global count_turns
     global disable_numbers_x
     global disable_numbers_o
@@ -80,8 +91,14 @@ def click_number(i):
 
 
 def player_won(check_disable):
-    '''This function returns True: if the player won OR False: if no player
-    hat yet won'''
+    '''Checks if the last player to make a move has won, when a player has won 
+    the buttons with the winning three in a row will turn to a color blue
+
+    Parameter:
+    check_disable(set): collected moves of the last player to make a move
+    Returns:
+    (bool): True if the player won or False if no player has won
+    '''
     win_combinations = [{0, 1, 2}, {3, 4, 5}, {6, 7, 8},
                         {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
                         {2, 4, 6}, {0, 4, 8}]
@@ -105,10 +122,13 @@ win.title('Tic-tac-toe game')
 
 
 heading_font = 'Helvetica'
+
+# Static label at the top of the GUI
 label_1 = tk.Label(win, text="Let's play",
                    font=heading_font).grid(row=0, column=1)
 
-# This code makes the two labels and entries for the name of the player
+# Makes the a labels and an entries for each of the players to collect the name
+# of the players
 entries_name = []
 row_place = 1
 for i in range(2):
@@ -121,13 +141,13 @@ for i in range(2):
 
     row_place += 1
 
-# This label will update itself according to the set message
+# Dinamic label in the code, it will update itself according to the set message
 message = tk.StringVar()
 label_2 = tk.Label(
     win, textvariable=message)
 label_2.grid(row=4, column=0, columnspan=4, rowspan=2)
 
-# These buttons here are the board of the the game
+# These buttons are the board of the the game
 # They are located in a different frame call Game_frame
 size_font = 20
 Game_frame = tk.Frame(win)
@@ -143,11 +163,8 @@ orig_color = button.cget("background")
 # orig_color is SystemButtonFace
 
 # This button starts the game
-tk.Button(win, text="Click here to start",
-          padx=5, pady=5, command=play).grid(row=3, columnspan=2)
+start_button = tk.Button(win, text="Click here to start",
+                         padx=5, pady=5, command=start)
+start_button.grid(row=3, columnspan=2)
 
 win.mainloop()
-
-# Useful references:
-# https://www.geeksforgeeks.org/python-gui-tkinter/
-# http://effbot.org/tkinterbook/label.htm
