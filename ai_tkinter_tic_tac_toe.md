@@ -6,6 +6,6 @@ The interface looks like the interface from the simple tkinter interface from th
 
 The computer chooses the position:
 - If the computer is able to win in the next turn, it will choose that position.
-- If the player wins in the next turn the computer will block it.
-- If there in no posibility of wining or blocking the computer will choose a corner or the center.
-- If non of the above, the computer will use a side position.
+- If the player wins in the next turn, the computer will block it.
+- If there in no posibility of wining or blocking, the computer will choose a corner or the center, if one is available.
+- If none of the above, the computer will use a side position.
