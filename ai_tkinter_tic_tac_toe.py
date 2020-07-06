@@ -110,8 +110,11 @@ def after_player_won(current_player):
 
 def deciding_computer_move(disable_numbers_o_copy, disable_numbers_x_copy):
     '''In this function the computer decides the next move
+    Parameters:
     disable_numbers_o_copy(set): copy of the moves up to this moment of the computer
-    disable_numbers_o_coopy(set): copy of the moves up to this moment of the player
+    disable_numbers_x_copy(set): copy of the moves up to this moment of the player
+    Return
+    move(int): position on the board
     '''
     available_moves = []
     for i in range(9):
