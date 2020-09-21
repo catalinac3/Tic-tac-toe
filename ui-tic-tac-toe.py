@@ -27,7 +27,7 @@ class MainWindow:
                             value=1,command=self.when_selected)
         self.radio2 = Radiobutton(win, text="2 players",variable=self.number_of_players, 
                             value=2,command=self.when_selected)
-        self.start_game = Button(win, text="Start Game",padx=5, pady=5, 
+        self.start_game = Button(win, text="Start game",padx=5, pady=5, 
                             command=self.to_game_window)
         # padx and pady add some extra space between the contents 
         # and the button border.
@@ -47,19 +47,21 @@ class MainWindow:
         self.entry_names[1].insert(0,self.entry_text)
 
         #Layout settings window
-        lbl1.grid(row=0,columnspan=2, padx=10, pady=(10,0))
-        lbl2.grid(row=1,columnspan=2, padx=10)
-        lbl3.grid(row=2,columnspan=2, padx=10)
-        self.radio1.grid(row=3, column=0, padx=10)
-        self.radio2.grid(row=3, column=1)
-        lbl_names[0].grid(row=4, column=0, padx=10)
-        self.entry_names[0].grid(row=4,column=1)
-        lbl_names[1].grid(row=5, column=0, padx=10)
-        self.entry_names[1].grid(row=5, column=1)
-        self.start_game.grid(row=6,columnspan=2, pady=(5,0))
+        lbl1.grid(row=0,columnspan=2, padx=90, pady=(50,0))
+        lbl2.grid(row=1,columnspan=2, padx=90)
+        lbl3.grid(row=2,columnspan=2, padx=90)
+        self.radio1.grid(row=3, column=0, padx=20, sticky=E)
+        self.radio2.grid(row=3, column=1, padx=20, sticky=W)
+        lbl_names[0].grid(row=4, column=0, padx=15, pady=(4,0), sticky=E)
+        self.entry_names[0].grid(row=4,column=1, pady=(4,0), sticky=W)
+        lbl_names[1].grid(row=5, column=0, padx=15, pady=(4,0), sticky=E)
+        self.entry_names[1].grid(row=5, column=1, pady=(4,0), sticky=W)
+        self.start_game.grid(row=6,columnspan=2, pady=(15,0))
 
     def when_selected(self):
-        '''what is done when a radio button is selected'''
+        '''when 1player is selected on the radio button, 
+        computer is use as a name for the second player, 
+        otherwise both spaces are blank to fill'''
         if self.number_of_players.get()==1:
             self.entry_names[1].delete(0, END)
             self.entry_names[1].insert(0,self.entry_text)
@@ -70,9 +72,8 @@ class MainWindow:
             self.entry_names[1].delete(0, END)
      
     def set_players(self):
-        ''' checks for players input of their name on the interface entry spaces,
-        in the case of no inputs, default names: player X and player O, will
-        be used during the game'''
+        '''checks for players name input on the entry spaces,
+        in the case of no inputs, the default names are: player X and player O'''
         for i in range(2):
             # .get() takes the value on the entry (inserted by the user)
             if len(self.entry_names[i].get()) != 0:
@@ -80,10 +81,11 @@ class MainWindow:
 
 
     def to_game_window(self):
-        '''calls setup_game_window, and disable buttons in the
-        game setting window '''
+        '''sets the game window, and disable all the buttons 
+        of the game setting window '''
         self.set_players()
-        game_window = GameWindow(self.number_of_players, self.players, onclose=self.enable_all)
+        GameWindow(self.number_of_players,
+                   self.players, onclose=self.enable_all)
         # while the game window is on the buttons on 
         # the game settings should be disable.
         self.start_game['state']=DISABLED
@@ -93,6 +95,7 @@ class MainWindow:
         self.entry_names[1]['state']=DISABLED
 
     def enable_all(self):
+        '''enable all the buttons in the game setting window '''
         self.start_game['state'] = NORMAL
         self.radio1['state'] = NORMAL
         self.radio2['state'] = NORMAL
@@ -108,7 +111,8 @@ class GameWindow:
         # WINDOW: Game 
         self.top = Toplevel()
         self.top.title('tic-tac-toe')
-        self.top.geometry("350x350")
+        # width*height
+        self.top.geometry("700x350")
 
         # when closing the top window with x, it will run the function to_settings.
         # same as when the button back to settings is clicked.
@@ -119,7 +123,7 @@ class GameWindow:
         self.message_label4 = StringVar()
         
         label1 = Label(self.top, text='Tic-tac-toe',font='Helvetic 16 bold italic')
-        back_button = Button(self.top, text="Back_to_settings",
+        back_button = Button(self.top, text="Back to settings",
                 padx=5, pady=5, command=self.to_settings)
         label2 = Label(self.top, text=f"{self.players[0]} vs. {self.players[1]}",
                 fg = '#1b1c5e', font='Helvetic 12',
@@ -128,24 +132,50 @@ class GameWindow:
         label3 = Label(self.top, text="Let's Play")
         label4 = Label(self.top, textvariable=self.message_label4, font='TkDefaultFont 10')
         self.message_label4.set(f"This label display the turns")
-   
-        #layout
-        label1.grid(row=0,columnspan=2, padx=10, pady=(20,0))
-        label2.grid(row=1,columnspan=2, padx=10)
-        label3.grid(row=2,columnspan=2, padx=10)
-        label4.grid(row=2,columnspan=2, padx=10)
-        back_button.grid(row=3,columnspan=2, padx=10, pady=(5,0))
 
+        #Game frame
+        Game_frame = Frame(self.top)
+       
+        game_btns = []
+        for i in range(9):
+            game_btn = Button(Game_frame, text=' ',
+                            command=partial(self.click_number, i),
+                            font=('Helvetica', 20), width=3)
+            game_btn.grid(row=i//3, column=i%3)
+            game_btns.append(game_btn)
+        
+
+        #Play again button
+        play_again_btn = Button(self.top, text="Play again",
+                         padx= 5, pady=5, command=self.start)
+        
+        #layout
+        label1.grid(row=0, column=0, columnspan=2, padx=80, pady=(10,0))
+        label2.grid(row=1, column=0, columnspan=2, padx=80)
+        label3.grid(row=2, column=0, columnspan=2, padx=80)
+        label4.grid(row=3, column=0, columnspan=2, padx=80)
+        Game_frame.grid(row=4, column=0, columnspan=2, padx=80)
+        play_again_btn.grid(row=5, column=0, padx= 5, pady=(5,0), sticky=E)
+        back_button.grid(row=5, column=1, padx=5, pady=(5,0), sticky=W)
+        
     def to_settings(self):
-        '''destroys the game window, activate the choices 
+        '''destroys the game window and activate the choices 
         on the setting window '''
         # when the user goes back to the setting 
         # the buttons on the game settings should be 
         # back to active (normal).
         self.top.destroy()
         if self.onclose:
+            # the onclose() is calling the function enable_all from 
+            # class MainWindow, used in the constructor
+            # of the gameWindow object.
             self.onclose()
 
+    def click_number(self):
+        pass
+
+    def start(self):
+        pass
 
 if __name__ == "__main__":
     main_window = MainWindow()    
@@ -156,6 +186,8 @@ if __name__ == "__main__":
 # original_font = lbl3.cget('font')
 # the original_font is TkDefaultFont
 
+# orig_color = button.cget("background")
+# orig_color is SystemButtonFace
 
 
 
