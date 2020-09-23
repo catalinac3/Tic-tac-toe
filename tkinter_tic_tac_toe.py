@@ -37,7 +37,6 @@ def start():
         if buttons[i]['state'] == 'disabled':
             buttons[i].config(state="normal", text=" ", bg=orig_color)
 
-    # --- THIS PART HAS BEEN COPIED
     # checks for players input of their name on the interface entry spaces,
     # in the case of no inputs, default names: player X and player O, will
     # be used during the game
@@ -48,7 +47,6 @@ def start():
 
     message.set(
         f"Welcome players: {players[0]} & {players[1]},\n it's your turn {players[0]}")
-     # --- END PART THAT HAS BEEN COPIED
 
 def click_number(i):
     '''Places an X or an O over the pressed button of the game and disable this 
