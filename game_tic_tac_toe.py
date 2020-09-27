@@ -117,10 +117,10 @@ class GameWindow:
         Parameter:
         i(int): is the number referening the position of the button in the game board
         '''
-
+        # Human turn activated with a click in the board
         if self.count_turns % 2 == 0:
-            current_player = self.player_x
-            self.game_btns[i].config(state="disabled", text='X')
+            current_player = self.player_x 
+            self.game_btns[i].config(state="disabled", text='X')         
             next_player = self.player_o
             self.disable_numbers_x.add(i)
             self.check_disable = self.disable_numbers_x
@@ -131,22 +131,31 @@ class GameWindow:
             next_player = self.player_x
             self.disable_numbers_o.add(i)
             self.check_disable = self.disable_numbers_o
-        
+    
         self.count_turns += 1
-
-        if self.player_won(self.check_disable):
+        
+        if self.player_won(self.check_disable, "playing"):
             self.message_label4.set(f"{current_player} won!! :) ")
 
             # this code disable left over buttons after winning
             for i in range(9):
                 if self.game_btns[i]['state'] == 'normal':
                     self.game_btns[i].config(state="disabled", text=" ")
+
         elif self.count_turns == 9:
              self.message_label4.set(f"It is a tie")
         else:
              self.message_label4.set(f"Your turn {next_player}")
+             if  next_player == "computer":
+                # TODO create function handle computer turn
+                self.disable_numbers_o_copy = self.disable_numbers_o.copy()
+                self.disable_numbers_x_copy = self.disable_numbers_x.copy()
+                self.move = self.deciding_computer_move(self.disable_numbers_o_copy,self.disable_numbers_x_copy)
+                self.game_btns[self.move].config(state="disabled", text='C')
+                
+                self.count_turns += 1
 
-    def player_won(self, check_disable):
+    def player_won(self, check_disable, game_state="trying"):
         '''Checks if the last player to make a move has won, when a player has won 
         the buttons with the winning three in a row will turn to a color blue
 
@@ -160,10 +169,65 @@ class GameWindow:
                         {2, 4, 6}, {0, 4, 8}]
         for win_set in win_combinations:
             if win_set.issubset(self.check_disable):
-                for elem in win_set:
-                    self.game_btns[elem]['bg'] = '#CCFFFF'
-                return True
-
+                if game_state == 'playing':
+                    for elem in win_set:
+                        self.game_btns[elem]['bg'] = '#CCFFFF'
+                    return True
+                elif game_state == 'trying':
+                    return True
         return False
+    
+    def deciding_computer_move(self, disable_numbers_o_copy, disable_numbers_x_copy):
+        '''In this function the computer decides the next move
+        Parameters:
+        self.disable_numbers_o_copy(set): copy of the moves up to this moment of the computer
+        self.disable_numbers_x_copy(set): copy of the moves up to this moment of the player
+        Return
+        self.move(int): position on the board'''
+        print ("I made it to function deciding_computer_moves")
+        self.available_moves = []
+        for i in range(9):
+            if self.game_btns[i]['state'] == 'normal':
+                self.available_moves.append(i)
+        print(self.available_moves)
+        print ("I checked available moves deciding_computer_moves")
+
+        # Check for every available move if computer can win with the next move
+        # if it can win self.move has a value
+        for i in self.available_moves:
+            self.disable_numbers_o_copy.add(i)
+            if self.player_won(self.disable_numbers_o_copy):
+                move = i
+                return move
+
+        # Check for every available move if the human can win with the next move
+        # if the human could win next round - the computer will block him/her
+        for i in self.available_moves:
+            self.disable_numbers_x_copy.add(i)
+            if self.player_won(self.disable_numbers_x_copy):
+                move = i
+                return move
+
+        # Check if any of the corners and center are available to make a move
+        # Center and corners are python-positions [0,2,6,8,4] in the board
+        corners_center_available = []
+        for i in self.available_moves:
+            if i in [0, 2, 4, 6, 8]:
+                corners_center_available.append(i)
+        move = random.choice(corners_center_available)
+        
+        if move:
+            return move
+
+        # Check if any of the sides are available to make a move
+        # Center and corners are python positions [1,3,5,7] in the board
+        sides_available = []
+        for i in self.available_moves:
+            if i in [1, 3, 5, 7]:
+                sides_available.append(i)
+        move = random.choice(sides_available)
+
+        if move:
+            return move
 
 # if __name__ == "__main__": 

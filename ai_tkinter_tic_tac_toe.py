@@ -179,7 +179,7 @@ def player_won(check_disable, game_state='trying'):
                         {2, 4, 6}, {0, 4, 8}]
     for win_set in win_combinations:
         if win_set.issubset(check_disable):
-            if game_state == 'playing':
+            if game_state == "playing":
                 for elem in win_set:
                     buttons[elem]['bg'] = '#CCFFFF'
                 return True
