@@ -22,7 +22,7 @@ class GameWindow:
         self.top = Toplevel()
         self.top.title('tic-tac-toe')
         # Width*height
-        self.top.geometry("700x350")
+        self.top.geometry("550x350")
 
         # When closing the top window with x, it will run the function to_settings.
         # same as when the button back to settings is clicked.
@@ -60,6 +60,30 @@ class GameWindow:
         #Play again button
         play_again_btn = Button(self.top, text="Play again",
                          padx= 5, pady=5, command=self.play_again)
+        # Score frame
+        self.player0 = players[0]
+        self.player1 = players[1]
+        self.won_player0 = 0
+        self.won_player1 = 0
+        self.message_label8 = StringVar()
+        self.message_label9 = StringVar()
+
+        
+        Score_frame = Frame(self.top, borderwidth=1, relief=GROOVE, padx=5, pady=5)
+        label5 = Label(Score_frame, text="Score", font='Helvetic 12', fg = '#1b1c5e')
+        label6 = Label(Score_frame, text=self.player0, relief=RIDGE, padx=10, pady=5)
+        label7 = Label(Score_frame, text=self.player1, relief=RIDGE, padx=10, pady=5)
+        label8 = Label(Score_frame, textvariable=self.message_label8)
+        label9 = Label(Score_frame, textvariable=self.message_label9)
+        self.message_label8.set(self.won_player0)
+        self.message_label9.set(self.won_player1)
+
+        # layout -- score frame
+        label5.grid(row=0, column=0, columnspan=2)
+        label6.grid(row=1, column=0)
+        label7.grid(row=1, column=1)
+        label8.grid(row=2, column=0)
+        label9.grid(row=2, column=1)
         
         #layout
         label1.grid(row=0, column=0, columnspan=2, padx=80, pady=(10,0))
@@ -67,6 +91,7 @@ class GameWindow:
         label3.grid(row=2, column=0, columnspan=2, padx=80)
         label4.grid(row=3, column=0, columnspan=2, padx=80)
         Game_frame.grid(row=4, column=0, columnspan=2, padx=80)
+        Score_frame.grid(row=4, column=2)
         play_again_btn.grid(row=5, column=0, padx= 5, pady=(5,0), sticky=E)
         back_button.grid(row=5, column=1, padx=5, pady=(5,0), sticky=W)
 
@@ -157,6 +182,13 @@ class GameWindow:
 
         if self.player_won(check_disable, "playing"):
             self.message_label4.set(f"{current_player} won!! :) ")
+            # this code takes the score
+            if current_player == self.player0:
+                self.won_player0 += 1
+                self.message_label8.set(self.won_player0)
+            else:
+                self.won_player1 += 1
+                self.message_label9.set(self.won_player1)
 
             # this code disable left over buttons after winning
             for i in range(9):
