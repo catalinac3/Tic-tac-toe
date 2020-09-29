@@ -226,7 +226,6 @@ class GameWindow:
             # defines current and next player
             current_player = self.player_x
             next_player = self.player_o
-            print(move, check_disable)
         else: 
             self.game_btns[move].config(state="disabled", text="O")
             # adds move to set of moves
@@ -252,7 +251,7 @@ class GameWindow:
         for i in range(9):
             if self.game_btns[i]['state'] == 'normal':
                 available_moves.append(i)
-        # print(f'available moves for the computer {available_moves}')
+        print(f'available moves for the computer {available_moves}')
         
         # identify computer player and move done by him 
         # and by its opponent
@@ -262,6 +261,7 @@ class GameWindow:
         else:
             computer_set = disable_numbers_o_copy
             oponent_set = disable_numbers_x_copy
+        print(f'computer already played - disable numbers {computer_set}')
 
         # Check for every available move if computer can win with the next move
         # if it can win self.move has a value
@@ -269,9 +269,10 @@ class GameWindow:
             computer_set.add(i)
             if self.player_won(computer_set):
                 move = i
+                print(f'computer can win!! {move}')
                 return move
             computer_set.remove(i)
-        # print('computer does not have a chance to win')
+        print('computer does not have a chance to win')
 
         # Check for every available move if the human can win with the next move
         # if the human could win next round - the computer will block him/her
@@ -279,9 +280,10 @@ class GameWindow:
             oponent_set.add(i)
             if self.player_won(oponent_set):
                 move = i
+                print(f'opponent can win!! block: {move}')
                 return move
             oponent_set.remove(i)
-        # print('oponent has no chance to win')
+        print('oponent has no chance to win')
 
         # Check if any of the corners and center are available to make a move
         # Center and corners are python-positions [0,2,6,8,4] in the board
@@ -289,22 +291,23 @@ class GameWindow:
         for i in available_moves:
             if i in [0, 2, 4, 6, 8]:
                 corners_center_available.append(i)
-        move = random.choice(corners_center_available)
-        
-        if move:
+        if corners_center_available:
+            move = random.choice(corners_center_available)
+            print(f'center or corner has been choosen: {move}')
             return move
-        # print('no corners available')
+
+        print('no corners available')
 
         # Check if any of the sides are available to make a move
         # Center and corners are python positions [1,3,5,7] in the board
-        sides_available = []
+        sides_available = []        
         for i in available_moves:
             if i in [1, 3, 5, 7]:
                 sides_available.append(i)
-        move = random.choice(sides_available)
-
-        if move:
+        if sides_available:
+            move = random.choice(sides_available)
             return move
-        # print('sides only available')
+        else: 
+            print ("no more moves")        
 
 # if __name__ == "__main__": 
