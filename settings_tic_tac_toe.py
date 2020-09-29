@@ -109,13 +109,5 @@ if __name__ == "__main__":
     main_window = MainWindow()    
     mainloop()
 
-# Extra -----------------------------
-
-# original_font = lbl3.cget('font')
-# the original_font is TkDefaultFont
-
-# orig_color = button.cget("background")
-# orig_color is SystemButtonFace
-
 
 
