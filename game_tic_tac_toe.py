@@ -226,6 +226,7 @@ class GameWindow:
             # defines current and next player
             current_player = self.player_x
             next_player = self.player_o
+            print(move, check_disable)
         else: 
             self.game_btns[move].config(state="disabled", text="O")
             # adds move to set of moves
@@ -237,8 +238,6 @@ class GameWindow:
         
         self.after_move(check_disable, current_player, next_player)
 
-
-
     def deciding_computer_move(self, comp_symbol):
         '''In this function the computer decides the next move
         Parameters:
@@ -248,13 +247,15 @@ class GameWindow:
         move(int): position on the board'''
         disable_numbers_o_copy = self.disable_numbers_o.copy()
         disable_numbers_x_copy = self.disable_numbers_x.copy()
+
         available_moves = []
-        
         for i in range(9):
             if self.game_btns[i]['state'] == 'normal':
                 available_moves.append(i)
-        print(f'available moves for the computer {available_moves}')
+        # print(f'available moves for the computer {available_moves}')
         
+        # identify computer player and move done by him 
+        # and by its opponent
         if comp_symbol == "x":
             computer_set = disable_numbers_x_copy
             oponent_set = disable_numbers_o_copy
@@ -269,7 +270,8 @@ class GameWindow:
             if self.player_won(computer_set):
                 move = i
                 return move
-        print('computer does not have a chance to win')
+            computer_set.remove(i)
+        # print('computer does not have a chance to win')
 
         # Check for every available move if the human can win with the next move
         # if the human could win next round - the computer will block him/her
@@ -278,7 +280,8 @@ class GameWindow:
             if self.player_won(oponent_set):
                 move = i
                 return move
-        print('oponent has no chance to win')
+            oponent_set.remove(i)
+        # print('oponent has no chance to win')
 
         # Check if any of the corners and center are available to make a move
         # Center and corners are python-positions [0,2,6,8,4] in the board
@@ -290,7 +293,7 @@ class GameWindow:
         
         if move:
             return move
-        print('no corners available')
+        # print('no corners available')
 
         # Check if any of the sides are available to make a move
         # Center and corners are python positions [1,3,5,7] in the board
@@ -302,6 +305,6 @@ class GameWindow:
 
         if move:
             return move
-        print('sides only available')
+        # print('sides only available')
 
 # if __name__ == "__main__": 

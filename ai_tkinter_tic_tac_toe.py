@@ -120,7 +120,6 @@ def deciding_computer_move(disable_numbers_o_copy, disable_numbers_x_copy):
     for i in range(9):
         if buttons[i]['state'] == 'normal':
             available_moves.append(i)
-    print(available_moves)
 
     # Check if computer can win with the next move
     for i in available_moves:
