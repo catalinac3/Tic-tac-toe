@@ -120,7 +120,6 @@ def deciding_computer_move(disable_numbers_o_copy, disable_numbers_x_copy):
     for i in range(9):
         if buttons[i]['state'] == 'normal':
             available_moves.append(i)
-    print(available_moves)
 
     # Check if computer can win with the next move
     for i in available_moves:
@@ -179,7 +178,7 @@ def player_won(check_disable, game_state='trying'):
                         {2, 4, 6}, {0, 4, 8}]
     for win_set in win_combinations:
         if win_set.issubset(check_disable):
-            if game_state == 'playing':
+            if game_state == "playing":
                 for elem in win_set:
                     buttons[elem]['bg'] = '#CCFFFF'
                 return True
