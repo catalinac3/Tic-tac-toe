@@ -19,6 +19,7 @@ class MainWindow:
         # when there is only one player the second entry 
         # should be computer
         self.number_of_players.set(1)
+    
         
         lbl1 = Label(win, text="Game Settings")
         lbl2 = Label(win, text='Tic-tac-toe',font='Helvetic 16 bold italic')
@@ -47,6 +48,7 @@ class MainWindow:
         # since the default is 1 player
         # the second entry will be computer
         self.entry_names[1].insert(0,self.entry_text)
+        self.entry_names[1]["state"] = DISABLED
 
         #Layout settings window
         lbl1.grid(row=0,columnspan=2, padx=90, pady=(50,0))
@@ -67,11 +69,14 @@ class MainWindow:
         if self.number_of_players.get()==1:
             self.entry_names[1].delete(0, END)
             self.entry_names[1].insert(0,self.entry_text)
+            self.entry_names[1]["state"] = DISABLED
         else:
             # since the whole old text is removed
             # 0 is the start point and END marks wherever 
             # the end currently is.
+            self.entry_names[1]["state"] = NORMAL
             self.entry_names[1].delete(0, END)
+           
      
     def set_players(self):
         '''checks for players name input on the entry spaces,
