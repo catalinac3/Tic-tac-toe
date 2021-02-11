@@ -1,7 +1,7 @@
 # Tic-tac-toe 
 
 Play through the console.
-[tic_tac_toe.py read me](tic_tac_toe.md)
+- [tic_tac_toe.py read me](tic_tac_toe.md)
 
 # Tic-tac-toe with interface
 
@@ -9,7 +9,7 @@ The interface is done using Tkinter. By constructing the GUI (graphical interfac
 
 - In the interface the player can play against the computer or another player in the same computer.
 
-he interface looks like this:
+The interface looks like this:
 
 ![tic_tac_toe tkinter interface](https://github.com/catalinac3/Projects-in-python/blob/master/images/gui-tic-tac-toe.JPG?raw=true)
 
