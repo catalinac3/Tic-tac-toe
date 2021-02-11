@@ -9,11 +9,16 @@ he interface looks like this:
 ![tic_tac_toe tkinter interface](https://github.com/catalinac3/Projects-in-python/blob/master/images/simple_tkinter.JPG?raw=true)
 
 Files:
+
 - settings_tic_tac_toe.py
 - game_tic_tac_toe.py
 
+### How to use it?
+
+You can run it in your VS Code.
 
 How the computer chooses a position:
+
 - If the computer is able to win in the next turn, it will choose that position.
 - If the player wins in the next turn, the computer will block it.
 - If there in no posibility of wining or blocking, the computer will choose a corner or the center, if one is available.
