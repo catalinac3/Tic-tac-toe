@@ -11,7 +11,7 @@ The interface is done using Tkinter. By constructing the GUI (graphical interfac
 
 he interface looks like this:
 
-![tic_tac_toe tkinter interface](https://github.com/catalinac3/Projects-in-python/blob/master/images/simple_tkinter.JPG?raw=true)
+![tic_tac_toe tkinter interface](https://github.com/catalinac3/Projects-in-python/blob/master/images/gui-tic-tac-toe.JPG?raw=true)
 
 Files:
 - settings_tic_tac_toe.py
