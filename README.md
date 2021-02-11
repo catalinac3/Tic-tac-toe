@@ -17,7 +17,7 @@ Files:
 - settings_tic_tac_toe.py
 - game_tic_tac_toe.py
 
-### How to use it?
+How to use it?
 You can run it in your VS Code and play.
 
 How the computer chooses a position:
